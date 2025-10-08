@@ -1,6 +1,3 @@
-; GROUP 2 - Manaois, Ramos, Reyes
-; A = RCX, RDX = x, R8 = y, R9 = n
-
 bits 64
 default rel
 section .text
@@ -8,75 +5,83 @@ global asm_xmm
 
 asm_xmm:
     push rbp
-    push rbx
     push r12
     push r13
     push r14
     push r15
+    mov rbp, rsp
     sub rsp, 32
 
     mov r10, rcx
     mov r11, rdx
     mov r12, r8
     mov r13d, r9d
-    
-    ; i = 0
+
     xor r14d, r14d
 
-LOOP_ROW:
+ROW_LOOP:
     cmp r14d, r13d
     jge DONE
 
-    mov eax, r14d
-    imul eax, r13d
-    mov rax, rax
-    shl rax, 2
-    mov rbx, r10
-    add rbx, rax
-
     xorps xmm0, xmm0
 
+    mov eax, r14d
+    imul eax, r13d
+    mov r15d, eax
+
+    mov ecx, r13d
+    shr ecx, 2
+    test ecx, ecx
+    jz COL_SCALAR_LOOP
+
+    xor r9d, r9d
+VEC_COL_LOOP:
+    mov eax, r15d
+    add eax, r9d
+    imul eax, 4
+    movups xmm1, [r10 + rax]
+    mov eax, r9d
+    imul eax, 4
+    movups xmm2, [r11 + rax]
+    mulps xmm1, xmm2
+    addps xmm0, xmm1
+    add r9d, 4
+    dec ecx
+    jnz VEC_COL_LOOP
+
+COL_SCALAR_LOOP:
     mov eax, r13d
-    shr eax, 2
+    and eax, 3
     test eax, eax
-    jz VTAIL_SCALAR
+    jz STORE_ROW
 
-    xor rsi, rsi
-
-VLOOP:
-    movups xmm1, [r11 + rsi*4]
-    movups xmm2, [r11 + rsi*4]
-    mulps xmm2, xmm1
-    addps xmm0, xmm2
-    add rsi, 4
-    dec eax
-    jnz VLOOP
-
-VTAIL_SCALAR:
-    movaps xmm1, xmm0
-    haddps xmm1, xmm1
-    haddps xmm1, xmm1
-    movss xmm2, xmm1
-
-    mov eax, r13d
-    sub eax, esi
-    test eax, eax
-    jz STORE_SCALAR
-
-TAIL_LOOP:
-    movss xmm3, dword [rbx + rsi*4]
-    movss xmm4, dword [r11 + rsi*4]
+SCALAR_COL_LOOP:
+    cmp r9d, r13d
+    jge STORE_ROW
+    mov edx, r15d
+    add edx, r9d
+    imul edx, 4
+    movss xmm3, [r10 + rdx]
+    mov eax, r9d
+    imul eax, 4
+    movss xmm4, [r11 + rax]
     mulss xmm3, xmm4
-    addss xmm2, xmm3
-    add rsi, 1
-    dec eax
-    jnz TAIL_LOOP
+    addss xmm0, xmm3
+    inc r9d
+    jmp SCALAR_COL_LOOP
 
-STORE_SCALAR:
-    movss dword [r12 + r14*4], xmm2
+STORE_ROW:
+    movhlps xmm1, xmm0
+    addps xmm0, xmm1
+    movaps xmm1, xmm0
+    shufps xmm1, xmm1, 0x01
+    addss xmm0, xmm1
+    mov eax, r14d
+    imul eax, 4
+    movss [r12 + rax], xmm0
 
     inc r14d
-    jmp LOOP_ROW
+    jmp ROW_LOOP
 
 DONE:
     add rsp, 32
@@ -84,6 +89,5 @@ DONE:
     pop r14
     pop r13
     pop r12
-    pop rbx
     pop rbp
     ret
