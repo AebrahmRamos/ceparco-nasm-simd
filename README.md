@@ -592,3 +592,6 @@ From the results, YMM achieved the best performance with an average speedup of 3
 The results show that SIMD implementations significantly outperform the baseline C kernel, with performance improving as the register width increases. The YMM implementation, which operates on 256-bit registers, achieved the highest speedup of 3.43×, demonstrating its efficiency in parallel processing larger data chunks per instruction. The XMM version, using 128-bit registers, also showed a strong improvement at 2.39× faster than the C kernel, while the non-vectorized version performed slower due to its sequential computation. Overall, the trend confirms that wider vector registers lead to better throughput and reduced execution time, particularly for large data sizes
 
 
+## Analysis of Results
+
+The SIMD versions clearly ran faster than the non-vectorized one, especially as the input size increased. YMM performed best overall since it could handle more data per instruction. For smaller sizes, the difference was less noticeable because the setup overhead took more time. Overall, the results matched our expectations that wider vector registers lead to better performance in larger workloads.
