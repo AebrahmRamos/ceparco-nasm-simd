@@ -1,6 +1,17 @@
 # ceparco-nasm-simd
 To be submitted in partial fulfillment of the requirements in Multiprocessing and Parallel Computing class (CEPARCO) using x86_64 ASM
 
+Instead of having to run the programs one by one and having to opt for the correctness check for each run. We've made it so that the timing and the correctness check of all the files (c kernel, non vec, xmm, and ymm) would be done in one run. The way the correctness check is done is through the vector comparison function in the main.c program
+```
+int compare_vecs(const float *a, const float *b, int n) {
+    for (int i = 0; i < n; i++) {
+        float da = fabsf(a[i] - b[i]);
+        if (da > 1e-4f) return 0;
+    }
+    return 1;
+}
+```
+
 ## Build and Run
 To build and run with n=30 (n being the number of times th code runs)
 
@@ -140,3 +151,13 @@ last 3:
 
 PS C:\Users\aebrahm\Documents\ceparco-nasm-simd> 
 ```
+
+## Discuss the problems encountered and solutions made, unique methodologies used, aha moments, etc.
+Since `NonVec.asm` was already working and have been finishedfirst, we used it as a baseline template for both xmm and ymm implementations. We ensure that it followed the same matrix-vector multiplication algorithm.
+
+We had an issue with the xmm implementation only loading one vector into both registers in the assembly code. Upon diagnosis, both lines were using the same register (i forgot to change after copying the line). It also had a redundant mov rax, rax which we removed. 
+
+For the ymm implementation, we had multiple crashes and incorrect outputs even after many attempts at fixing only to figureout that the cause is themissing pop rbp. We've also separatedthe vmul and the vadd instead of fma leading to a worse performance than the xmm implementation which shouldnt be the case. What we did to solve these problems is to add a proper push/pop for calle savedregisters,implemented fma,and ensured the use of vzeroupper .
+
+For the main.c we didn't really have much problems here for running, building, and linking. The only problem we had was the timing seconds was showing 0.000000  for smallertimes. To solve, we've updated the print to printbothmicroseconds and nanoseconds.
+
