@@ -579,3 +579,16 @@ last 3:
 
 The result for ymm being faster than the rest on most n's is to be expected since we are processing less on ymm implementation with 256 bits. It's also expected for xmm to be neck and neck or even beat ymm in some test runs on lower n values since there are not much samples and may be biased. 
 
+
+| Implementation    | Geometric Mean (time ratio vs c) | Average Speedup vs C | 
+|------|---------------|-------------|
+| Non-Vec    | 1.7149         | 0.563x (slower)       | 
+| XMM   | 0.4181         | 2.39x faster      | 
+| YMM   | 0.2918        | 3.43x faster      | 
+
+From the results, YMM achieved the best performance with an average speedup of 3.43×, followed by XMM at 2.39×, while the Non-Vectorized version was slower than C at about 0.56×. This confirms that SIMD vectorization, especially with 256-bit YMM, significantly improves execution speed.
+
+
+The results show that SIMD implementations significantly outperform the baseline C kernel, with performance improving as the register width increases. The YMM implementation, which operates on 256-bit registers, achieved the highest speedup of 3.43×, demonstrating its efficiency in parallel processing larger data chunks per instruction. The XMM version, using 128-bit registers, also showed a strong improvement at 2.39× faster than the C kernel, while the non-vectorized version performed slower due to its sequential computation. Overall, the trend confirms that wider vector registers lead to better throughput and reduced execution time, particularly for large data sizes
+
+
