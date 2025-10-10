@@ -161,3 +161,421 @@ For the ymm implementation, we had multiple crashes and incorrect outputs even a
 
 For the main.c we didn't really have much problems here for running, building, and linking. The only problem we had was the timing seconds was showing 0.000000  for smallertimes. To solve, we've updated the print to printbothmicroseconds and nanoseconds.
 
+
+## Benchmark Logs
+
+### n=8
+```
+C kernel time: 0.200 us || 0.000000200 s
+first 3:
+  [0] = 0.079952
+  [1] = 0.039976
+  [2] = 0.026651
+last 3:
+  [5] = 0.013325
+  [6] = 0.011422
+  [7] = 0.009994
+
+asm non-SIMD average time: 0.517 us || 0.000000517 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 0.079952
+  [1] = 0.039976
+  [2] = 0.026651
+last 3:
+  [5] = 0.013325
+  [6] = 0.011422
+  [7] = 0.009994
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 0.093 us || 0.000000093 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 0.079952
+  [1] = 0.039976
+  [2] = 0.026651
+last 3:
+  [5] = 0.013325
+  [6] = 0.011422
+  [7] = 0.009994
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 0.107 us || 0.000000107 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 0.079952
+  [1] = 0.039976
+  [2] = 0.026651
+last 3:
+  [5] = 0.013325
+  [6] = 0.011422
+  [7] = 0.009994
+```
+
+### n=16
+```
+C kernel time: 0.300 us || 0.000000300 s
+first 3:
+  [0] = 0.159535
+  [1] = 0.079767
+  [2] = 0.053178
+last 3:
+  [13] = 0.011395
+  [14] = 0.010636
+  [15] = 0.009971
+
+asm non-SIMD average time: 0.590 us || 0.000000590 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 0.159535
+  [1] = 0.079767
+  [2] = 0.053178
+last 3:
+  [13] = 0.011395
+  [14] = 0.010636
+  [15] = 0.009971
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 0.193 us || 0.000000193 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 0.159535
+  [1] = 0.079767
+  [2] = 0.053178
+last 3:
+  [13] = 0.011395
+  [14] = 0.010636
+  [15] = 0.009971
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 0.230 us || 0.000000230 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 0.159535
+  [1] = 0.079767
+  [2] = 0.053178
+last 3:
+  [13] = 0.011395
+  [14] = 0.010636
+  [15] = 0.009971
+```
+
+### n=30
+```
+C kernel time: 1.000 us || 0.000000100 s
+first 3:
+  [0] = 0.296672
+  [1] = 0.148336
+  [2] = 0.098891
+last 3:
+  [27] = 0.010595
+  [28] = 0.010230
+  [29] = 0.009889
+
+asm non-SIMD average time: 1.903 us || 0.000001903 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 0.296672
+  [1] = 0.148336
+  [2] = 0.098891
+last 3:
+  [27] = 0.010595
+  [28] = 0.010230
+  [29] = 0.009889
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 0.407 us || 0.000000407 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 0.296672
+  [1] = 0.148336
+  [2] = 0.098891
+last 3:
+  [27] = 0.010595
+  [28] = 0.010230
+  [29] = 0.009889
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 0.513 us || 0.000000513 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 0.296672
+  [1] = 0.148336
+  [2] = 0.098891
+last 3:
+  [27] = 0.010595
+  [28] = 0.010230
+  [29] = 0.009889
+```
+
+### n=64
+```
+C kernel time: 4.900 us || 0.000004900 s
+first 3:
+  [0] = 0.606847
+  [1] = 0.303423
+  [2] = 0.202282
+last 3:
+  [61] = 0.009788
+  [62] = 0.009632
+  [63] = 0.009482
+
+asm non-SIMD average time: 9.613 us || 0.000009613 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 0.606847
+  [1] = 0.303423
+  [2] = 0.202282
+last 3:
+  [61] = 0.009788
+  [62] = 0.009632
+  [63] = 0.009482
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 2.080 us || 0.000002080 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 0.606847
+  [1] = 0.303423
+  [2] = 0.202282
+last 3:
+  [61] = 0.009788
+  [62] = 0.009632
+  [63] = 0.009482
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 0.890 us || 0.000000890 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 0.606847
+  [1] = 0.303423
+  [2] = 0.202282
+last 3:
+  [61] = 0.009788
+  [62] = 0.009632
+  [63] = 0.009482
+```
+
+### n=128
+```
+C kernel time: 22.000 us || 0.000022000 s
+first 3:
+  [0] = 1.035367
+  [1] = 0.517684
+  [2] = 0.345122
+last 3:
+  [125] = 0.008217
+  [126] = 0.008152
+  [127] = 0.008089
+
+asm non-SIMD average time: 44.967 us || 0.000044967 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 1.035367
+  [1] = 0.517684
+  [2] = 0.345122
+last 3:
+  [125] = 0.008217
+  [126] = 0.008152
+  [127] = 0.008089
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 8.320 us || 0.000008320 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 1.035367
+  [1] = 0.517683
+  [2] = 0.345122
+last 3:
+  [125] = 0.008217
+  [126] = 0.008152
+  [127] = 0.008089
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 5.400 us || 0.000005400 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 1.035367
+  [1] = 0.517683
+  [2] = 0.345122
+last 3:
+  [125] = 0.008217
+  [126] = 0.008152
+  [127] = 0.008089
+```
+
+### n=256
+```
+C kernel time: 87.800 us || 0.000087800 s
+first 3:
+  [0] = 1.228584
+  [1] = 0.614292
+  [2] = 0.409528
+last 3:
+  [253] = 0.004837
+  [254] = 0.004818
+  [255] = 0.004799
+
+asm non-SIMD average time: 99.333 us || 0.000099333 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 1.228584
+  [1] = 0.614292
+  [2] = 0.409528
+last 3:
+  [253] = 0.004837
+  [254] = 0.004818
+  [255] = 0.004799
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 31.500 us || 0.000031500 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 1.228584
+  [1] = 0.614292
+  [2] = 0.409528
+last 3:
+  [253] = 0.004837
+  [254] = 0.004818
+  [255] = 0.004799
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 13.723 us || 0.000013723 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 1.228584
+  [1] = 0.614292
+  [2] = 0.409528
+last 3:
+  [253] = 0.004837
+  [254] = 0.004818
+  [255] = 0.004799
+```
+
+### n=512
+```
+C kernel time: 333.500 us || 0.000333500 s
+first 3:
+  [0] = 1.516760
+  [1] = 0.758380
+  [2] = 0.505586
+last 3:
+  [509] = 0.002974
+  [510] = 0.002968
+  [511] = 0.002962
+
+asm non-SIMD average time: 373.970 us || 0.000373970 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 1.516760
+  [1] = 0.758380
+  [2] = 0.505586
+last 3:
+  [509] = 0.002974
+  [510] = 0.002968
+  [511] = 0.002962
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 111.850 us || 0.000111850 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 1.516760
+  [1] = 0.758380
+  [2] = 0.505587
+last 3:
+  [509] = 0.002974
+  [510] = 0.002968
+  [511] = 0.002962
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 79.590 us || 0.000079590 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 1.516759
+  [1] = 0.758380
+  [2] = 0.505587
+last 3:
+  [509] = 0.002974
+  [510] = 0.002968
+  [511] = 0.002962
+```
+
+### n=1024
+```
+C kernel time: 1444.700 us || 0.001444700 s
+first 3:
+  [0] = 1.735650
+  [1] = 0.867825
+  [2] = 0.578549
+last 3:
+  [1021] = 0.001698
+  [1022] = 0.001697
+  [1023] = 0.001695
+
+asm non-SIMD average time: 2196.107 us || 0.002196107 s (runs=30)
+asm non-SIMD correctness: OK
+first 3:
+  [0] = 1.735650
+  [1] = 0.867825
+  [2] = 0.578549
+last 3:
+  [1021] = 0.001698
+  [1022] = 0.001697
+  [1023] = 0.001695
+
+starting asm_xmm loop
+finished asm_xmm loop
+asm SSE/XMM average time: 574.537 us || 0.000574537 s (runs=30)
+asm SSE/XMM correctness: OK
+first 3:
+  [0] = 1.735648
+  [1] = 0.867824
+  [2] = 0.578549
+last 3:
+  [1021] = 0.001698
+  [1022] = 0.001697
+  [1023] = 0.001695
+
+starting asm_ymm loop
+finished asm_ymm loop
+asm AVX2/YMM average time: 217.173 us || 0.000217173 s (runs=30)
+asm AVX2/YMM correctness: OK
+first 3:
+  [0] = 1.735648
+  [1] = 0.867824
+  [2] = 0.578549
+last 3:
+  [1021] = 0.001698
+  [1022] = 0.001697
+  [1023] = 0.001695
+```
+
+## Comparative Execution Time Table
+
+| n    | C Kernel (us) | NonVec (us) | XMM (us) | YMM (us) |
+|------|---------------|-------------|----------|----------|
+| 8    | 0.200         | 0.517       | 0.093    | 0.107    |
+| 16   | 0.300         | 0.590       | 0.193    | 0.230    |
+| 30   | 1.000         | 1.903       | 0.407    | 0.513    |
+| 64   | 4.900         | 9.613       | 2.080    | 0.890    |
+| 128  | 22.000        | 44.967      | 8.320    | 5.400    |
+| 256  | 87.800        | 99.333      | 31.500   | 13.723   |
+| 512  | 333.500       | 373.970     | 111.850  | 79.590   |
+| 1024 | 1444.700      | 2196.107    | 574.537  | 217.173  |
+
+The result for ymm being faster than the rest on most n's is to be expected since we are processing less on ymm implementation with 256 bits. It's also expected for xmm to be neck and neck or even beat ymm in some test runs on lower n values since there are not much samples and may be biased. 
+
