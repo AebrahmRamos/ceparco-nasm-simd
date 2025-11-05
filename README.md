@@ -65,11 +65,11 @@ Embed example:
 | x86-64 scalar | ____ | ____ |
 | x86-64 SIMD XMM | ____ | ____ |
 | x86-64 SIMD YMM | ____ | ____ |
-| CUDA Unified | 167.140 | ____ |
-| CUDA Prefetch | 101.920 | ____ |
-| CUDA Prefetch + Page creation | 224.160 | ____ |
-| CUDA Prefetch + Page + memadvise | 99.167 | ____ |
-| CUDA classic memcpy | 3.362 | ____ |
+| CUDA Unified | 64.86667 | ____ |
+| CUDA Prefetch | 43.14558 | ____ |
+| CUDA Prefetch + Page creation | 89.16437 | ____ |
+| CUDA Prefetch + Page + memadvise | 13.824438 | ____ |
+| CUDA classic memcpy | 12.831062 | ____ |
 | CUDA data init in kernel | ____ | ____ |
 
 
