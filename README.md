@@ -86,9 +86,13 @@ Embed example:
 
 Provide concise, evidence-backed answers to the questions below and include any additional observations.
 
-- Justify your kernel execution time.
+The x86-64 SIMD YMM variant was the fastest overall at 4.46 ms and achieved the maximum speedup of 17.4296x. In contrast, the fastest GPU variant, CUDA classic memcpy, achieved only 6.0678x speedup. This difference indicates that for this matrix-vector product workload, the SIMD approach on the CPU is highly efficient because it avoids the high latency and limited bandwidth associated with data transfer to the GPU's memory.
 
-- Analysis of speed performance across all platforms.
+The CUDA Unified Memory (UM) results highlight the importance of tuning:
+
+*The CUDA Prefetch + Page creation variant was the slowest overall (89.16 ms, a 0.8734x speedup). This severe performance hit was primarily due to Page Thrashing, which resulted in a massive 71.6 ms Device-to-Host (D2H) transfer overhead.
+
+*Adding memadvise solved the thrashing, reducing the time dramatically to 13.82 ms (5.6318x speedup)
 
 ### Guide questions:
 a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?
