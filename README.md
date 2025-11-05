@@ -84,25 +84,37 @@ Embed example:
 
 ## iv) Analysis of results
 
-Provide concise, evidence-backed answers to the questions below and include any additional observations.
+*Provide concise, evidence-backed answers to the questions below and include any additional observations.*
 
 The x86-64 SIMD YMM variant was the fastest overall at 4.46 ms and achieved the maximum speedup of 17.4296x. In contrast, the fastest GPU variant, CUDA classic memcpy, achieved only 6.0678x speedup. This difference indicates that for this matrix-vector product workload, the SIMD approach on the CPU is highly efficient because it avoids the high latency and limited bandwidth associated with data transfer to the GPU's memory.
 
 The CUDA Unified Memory (UM) results highlight the importance of tuning:
 
-*The CUDA Prefetch + Page creation variant was the slowest overall (89.16 ms, a 0.8734x speedup). This severe performance hit was primarily due to Page Thrashing, which resulted in a massive 71.6 ms Device-to-Host (D2H) transfer overhead.
+- The CUDA Prefetch + Page creation variant was the slowest overall (89.16 ms, a 0.8734x speedup). This severe performance hit was primarily due to Page Thrashing, which resulted in a massive 71.6 ms Device-to-Host (D2H) transfer overhead.
 
-*Adding memadvise solved the thrashing, reducing the time dramatically to 13.82 ms (5.6318x speedup)
+- Adding memadvise solved the thrashing, reducing the time dramatically to 13.82 ms (5.6318x speedup)
 
 ### Guide questions:
 a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?
 	- page migration, host to device, device to hostt
 
+	
+
 b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?
+
+
 
 c) Is prefetching always recommended, or should CUDA manage memory? Give specific use cases where prefetching helps or hurts.
 
+- Prefetching is not always recommended. Relying on CUDA's automatic Unified Memory (UM) management is generally simpler and safer by default.
+-  Prefetching is beneficial for large, sequential data access patterns (e.g., streaming data to the GPU). It enables the programmer to execute a single, efficient bulk transfer (cudaMemPrefetchAsync), which is faster than relying on the high latency of multiple, individual page faults (e.g., Prefetch reduced time from 64.86 text ms to 43.14 ms).
+-  Prefetching hurts performance if used without the memadvise locality hint. In alternating CPU/GPU access scenarios, this can confuse the memory manager and lead to severe Page Thrashing, resulting in the worst-case time of 89.16 ms.
+
 d) Between SIMD and SIMT, which is faster for this workload? Give use cases where one model is preferable.
+
+- SIMD (x86-64) is significantly faster for this workload (4.46 ms) than the fastest SIMT/CUDA variant (12.83 ms).
+- SIMD is preferable for small, simple, compute-intensive workloads where the cost of data movement to the GPU is the dominant bottleneck.
+- SIMT is preferable for massively parallel, latency-tolerant workloads where the computation time is large enough to amortize the initial data transfer overhead, such as large-scale simulations.
 
 // add charts like bar charts for timings, speedup plots, and any roofline or bandwidth utilization graphs
 
@@ -120,7 +132,7 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
 
 ## vi) SIMD vs SIMT — conceptual comparison and project-specific pros/cons
 
-analysis
+The conceptual difference between SIMD (Single Instruction, Multiple Data) and SIMT (Single Instruction, Multiple Threads) is fundamentally one of scale versus overhead. SIMD, used via x86 AVX, achieves parallelism by applying a single instruction to multiple data elements within a single CPU core. This model has very low launch overhead and the fastest implementation (YMM) achieved an exceptional 4.467 ms. In contrast, SIMT achieves massive parallelism by running thousands of threads across numerous GPU cores. Although theoretically more powerful for compute-heavy tasks, the best performing SIMT variant (Classic memcpy) took 12.831 ms. Therefore, for this specific 4096 x 4096 matrix-vector multiplication, the SIMD model was empirically faster due to the high data transfer and memory management overheads (including cudaMemcpy time) that bottlenecked the CUDA variants. SIMD is preferable for workloads where the data set fits in memory and the overhead of data transfer dominates computation time, while SIMT is preferable for large-scale, compute-bound problems where data transfer time is relatively small compared to the kernel execution time. 
 
 ## Final notes
 notes
