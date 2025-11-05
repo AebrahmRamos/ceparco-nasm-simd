@@ -62,9 +62,9 @@ Embed example:
 | Platform / Variant | Measured time (ms) | Speedup vs C |
 |---|---:|---:|
 | C baseline | 77.856500 | 1.00x |
-| x86-64 scalar | ____ | ____ |
-| x86-64 SIMD XMM | ____ | ____ |
-| x86-64 SIMD YMM | ____ | ____ |
+| x86-64 scalar | 9.245687 | ____ |
+| x86-64 SIMD XMM | 4.853967 | ____ |
+| x86-64 SIMD YMM | 4.46691 | ____ |
 | CUDA Unified | 64.86667 | ____ |
 | CUDA Prefetch | 43.14558 | ____ |
 | CUDA Prefetch + Page creation | 89.16437 | ____ |
