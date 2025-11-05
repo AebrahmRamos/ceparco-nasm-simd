@@ -61,7 +61,7 @@ Embed example:
 
 | Platform / Variant | Measured time (ms) | Speedup vs C |
 |---|---:|---:|
-| C baseline | ____ | 1.00x |
+| C baseline | 0.069800 | 1.00x |
 | x86-64 scalar | ____ | ____ |
 | x86-64 SIMD XMM | ____ | ____ |
 | x86-64 SIMD YMM | ____ | ____ |
