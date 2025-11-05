@@ -69,7 +69,7 @@ Embed example:
 | CUDA Prefetch | 101.920 | ____ |
 | CUDA Prefetch + Page creation | 224.160 | ____ |
 | CUDA Prefetch + Page + memadvise | 99.167 | ____ |
-| CUDA classic memcpy | ____ | ____ |
+| CUDA classic memcpy | 3.362 | ____ |
 | CUDA data init in kernel | ____ | ____ |
 
 
