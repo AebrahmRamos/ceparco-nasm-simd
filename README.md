@@ -30,13 +30,13 @@
 	- nsight/nsight-var5.png     — Nsight report: CUDA MemAdvise
 	- nsight/nsight-var6.png     — Nsight report: CUDA memcpy
 
-![Output of Cuda Unified](screenshots/upload/output_c.png)
+![Output of C](screenshots/upload/output_c.png)
 
-![Output of Cuda Unified](screenshots/upload/output_x86_scalar.png)
+![Output of x86-64 scalar](screenshots/upload/output_x86_scalar.png)
 
-![Output of Cuda Unified](screenshots/upload/output_xmm.png)
+![Output of x86-64 SIMD XMM](screenshots/upload/output_xmm.png)
 
-![Output of Cuda Unified](screenshots/upload/output_ymm.png)
+![Output of x86-64 SIMD YMM](screenshots/upload/output_ymm.png)
 
 ![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)
 Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
@@ -119,6 +119,8 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
 // add charts like bar charts for timings, speedup plots, and any roofline or bandwidth utilization graphs
 
 ![Execution time comparison](screenshots/upload/ExecutionTime.png)
+
+![Speedup time comparison](screenshots/upload/PerformanceSpeedup.png)
 
 ## v) Problems encountered, solutions, and notable methodology
 
