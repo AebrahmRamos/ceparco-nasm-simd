@@ -30,6 +30,14 @@
 	- nsight/nsight-var5.png     — Nsight report: CUDA MemAdvise
 	- nsight/nsight-var6.png     — Nsight report: CUDA memcpy
 
+![Output of Cuda Unified](screenshots/upload/output_c.png)
+
+![Output of Cuda Unified](screenshots/upload/output_x86_scalar.png)
+
+![Output of Cuda Unified](screenshots/upload/output_xmm.png)
+
+![Output of Cuda Unified](screenshots/upload/output_ymm.png)
+
 ![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)
 Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
 
