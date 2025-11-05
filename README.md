@@ -3,7 +3,7 @@
 - Group members
 	- Manaois, Raidon
 	- Ramos, Aebrahm Clyde P.
-	- Reyes, Cyril Sam N.x
+	- Reyes, Cyril Sam N
 - Project specifications
 	- Problem: 
     - other specs
