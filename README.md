@@ -30,12 +30,16 @@
 	- nsight/nsight-var5.png     — Nsight report: CUDA MemAdvise
 	- nsight/nsight-var6.png     — Nsight report: CUDA memcpy
 
+C baseline output:
 ![Output of Cuda Unified](screenshots/upload/output_c.png)
 
+x86-64 scalar
 ![Output of Cuda Unified](screenshots/upload/output_x86_scalar.png)
 
+x86-64 SIMD XMM
 ![Output of Cuda Unified](screenshots/upload/output_xmm.png)
 
+x86-64 SIMD YMM
 ![Output of Cuda Unified](screenshots/upload/output_ymm.png)
 
 ![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)
