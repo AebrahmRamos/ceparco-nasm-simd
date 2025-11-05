@@ -3,7 +3,7 @@
 - Group members
 	- Manaois, Raidon
 	- Ramos, Aebrahm Clyde P.
-	- Reyes, Chino
+	- Reyes, Cyril Sam N.x
 - Project specifications
 	- Problem: 
     - other specs
@@ -69,15 +69,15 @@ Embed example:
 
 | Platform / Variant | Measured time (ms) | Speedup vs C |
 |---|---:|---:|
-| C baseline | 77.856500 | 1.00x |
-| x86-64 scalar | 9.245687 | ____ |
-| x86-64 SIMD XMM | 4.853967 | ____ |
-| x86-64 SIMD YMM | 4.46691 | ____ |
-| CUDA Unified | 64.86667 | ____ |
-| CUDA Prefetch | 43.14558 | ____ |
-| CUDA Prefetch + Page creation | 89.16437 | ____ |
-| CUDA Prefetch + Page + memadvise | 13.824438 | ____ |
-| CUDA classic memcpy | 12.831062 | ____ |
+| C baseline | 77.856500 | 1.0000x |
+| x86-64 scalar | 9.245687 | 8.4210x |
+| x86-64 SIMD XMM | 4.853967 | 16.0398x |
+| x86-64 SIMD YMM | 4.46691 | 17.4296x |
+| CUDA Unified | 64.86667 | 1.2003x |
+| CUDA Prefetch | 43.14558 | 1.8045x |
+| CUDA Prefetch + Page creation | 89.16437 |0.8734x (slower than C) |
+| CUDA Prefetch + Page + memadvise | 13.824438 |5.6318x|
+| CUDA classic memcpy | 12.831062 |6.0678x |
 | CUDA data init in kernel | ____ | ____ |
 
 
@@ -92,6 +92,7 @@ Provide concise, evidence-backed answers to the questions below and include any 
 
 ### Guide questions:
 a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?
+	- page migration, host to device, device to hostt
 
 b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?
 
