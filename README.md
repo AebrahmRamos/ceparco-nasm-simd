@@ -118,6 +118,8 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
 
 // add charts like bar charts for timings, speedup plots, and any roofline or bandwidth utilization graphs
 
+![Execution time comparison](screenshots/upload/ExecutionTime.png)
+
 ## v) Problems encountered, solutions, and notable methodology
 
 - Problems encountered:
