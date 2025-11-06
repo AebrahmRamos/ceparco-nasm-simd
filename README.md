@@ -115,7 +115,12 @@ a) What overheads are included in the GPU execution time (up to the point data a
 	
 b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?
 
+- cudaMallocManaged Time Decreases (64 to 1024): This initial time often includes the very first page faults and the initial setup of the UM system. As the block size increases (and therefore the total number of threads/blocks increases, up to the optimal point), the kernel is more effectively utilizing the GPU, and the initial time taken before the kernel launch might look better because more work is being done in parallel.
+- H2D / D2H Time Increases at 1024
+  -	While a block size of 1024 is the maximum allowed on most modern GPUs and generally leads to the fastest kernel execution time (because the GPU is fully saturated), it can also lead to increased data migration (H2D and D2H).
+  -	A larger block size means the GPU threads are accessing memory frequently and potentially non-contiguously across different thread blocks. If the memory access patterns cause the data to "thrash" (constantly being swapped back and forth between CPU and GPU pages), the time spent migrating data (H2D/D2H) will spike dramatically, even if the kernel itself is technically running at max speed.
 
+Data suggests that 1024 threads per block may be great for compute speed, but it causes the highest Unified Memory overhead (H2D/D2H migration). A slightly smaller size (like 512 or 256) might offer a better balance between fast kernel execution and minimized data transfer overhead, leading to the best overall wall-clock time.
 
 c) Is prefetching always recommended, or should CUDA manage memory? Give specific use cases where prefetching helps or hurts.
 
