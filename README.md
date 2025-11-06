@@ -60,10 +60,15 @@ Caption: CUDA classic memcpy — correctness passed (L2 error = 0), wall-clock t
 ## ii) nSight screenshots for CUDA variants
 
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var2.png)
+Caption: Nsight report — CUDA Unified
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var3.png)
+Caption: Nsight report — CUDA Prefetch
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var4.png)
+Caption: Nsight report — CUDA Page creation
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var5.png)
+Caption: Nsight report — CUDA MemAdvise
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var6.png)
+Caption: Nsight report — CUDA memcpy
 
 
 ## iii) Comparative execution-time table
