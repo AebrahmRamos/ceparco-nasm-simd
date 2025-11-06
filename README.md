@@ -1,16 +1,15 @@
-## 0) Administrative
-
-- Group members
+**Group members**
 	- Manaois, Raidon
 	- Ramos, Aebrahm Clyde P.
 	- Reyes, Cyril Sam N
-- Project specifications
-	- Problem: 
-    - other specs
-- AI usage declaration
-	- Gemini
-        - Used for explaining the contents of the discovery series notebook, tutorial notebook, and cuda documentaiton
-        - Used for generating the Markdown formatting and layout of the ReadMe
+
+**Project specifications**
+	- Task: Create a matrix vector product in different kernels and perform comparative analysis. 
+
+**AI usage declaration**
+	- **NotebookLM**: Used for explaining the contents of the discovery series notebook, tutorial notebook, and cuda documentation. Served as a knowledgebase chatbot for all the files and provided flowchart for the ideas.
+	- **Gemini**: Used for generating the Markdown formatting and layout of the ReadMe
+	- **Grammarly**: Used for improving writing and correcting grammatical, spelling, and punctuation errors.
 
 ## i) Program output screenshots (correctness + timing)
 
@@ -31,44 +30,44 @@
 	- nsight/nsight-var6.png     — Nsight report: CUDA memcpy
 
 ![Output of C](screenshots/upload/output_c.png)\
-Caption: C baseline — correctness passed (L2 error = 0), wall-clock time = 77.856500 ms
+C baseline — correctness passed (L2 error = 0), wall-clock time = 77.856500 ms
 
 ![Output of x86-64 scalar](screenshots/upload/output_x86_scalar.png)\
-Caption: x86-64 scalar — correctness passed (L2 error = OK), wall-clock time = 9.245687 ms
+x86-64 scalar — correctness passed (L2 error = OK), wall-clock time = 9.245687 ms
 
 ![Output of x86-64 SIMD XMM](screenshots/upload/output_xmm.png)\
-Caption: x86-64 SIMD XMM — correctness passed (L2 error = OK), wall-clock time = 4.853967 ms
+x86-64 SIMD XMM — correctness passed (L2 error = OK), wall-clock time = 4.853967 ms
 
 ![Output of x86-64 SIMD YMM](screenshots/upload/output_ymm.png)\
-Caption: x86-64 SIMD YMM — correctness passed (L2 error = OK), wall-clock time = 4.466910 ms
+x86-64 SIMD YMM — correctness passed (L2 error = OK), wall-clock time = 4.466910 ms
 
 ![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)\
-Caption: CUDA Unified — correctness passed (L2 error = 0), wall-clock time = 64.86667 ms
+CUDA Unified — correctness passed (L2 error = 0), wall-clock time = 64.86667 ms
 
 ![Output of Cuda Prefetch](screenshots/simt/nvprof-var3.png)\
-Caption: CUDA Prefetch — correctness passed (L2 error = 0), wall-clock time = 43.14558 ms
+CUDA Prefetch — correctness passed (L2 error = 0), wall-clock time = 43.14558 ms
 
 ![Output of Cuda Page Creation](screenshots/simt/nvprof-var4.png)\
-Caption: CUDA Prefetch + Page creation — correctness passed (L2 error = 0), wall-clock time = 89.16437 ms
+CUDA Prefetch + Page creation — correctness passed (L2 error = 0), wall-clock time = 89.16437 ms
 
 ![Output of Cuda MemAdvise](screenshots/simt/nvprof-var5.png)\
-Caption: CUDA Prefetch + Page + memadvise — correctness passed (L2 error = 0), wall-clock time = 13.824438 ms
+CUDA Prefetch + Page + memadvise — correctness passed (L2 error = 0), wall-clock time = 13.824438 ms
 
 ![Output of Cuda Memory Copy](screenshots/simt/nvprof-var6.png)\
-Caption: CUDA classic memcpy — correctness passed (L2 error = 0), wall-clock time = 12.831062 ms
+CUDA classic memcpy — correctness passed (L2 error = 0), wall-clock time = 12.831062 ms
 
 ## ii) nSight screenshots for CUDA variants
 
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var2.png)
-Caption: Nsight report — CUDA Unified
+Nsight report — CUDA Unified
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var3.png)
-Caption: Nsight report — CUDA Prefetch
+Nsight report — CUDA Prefetch
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var4.png)
-Caption: Nsight report — CUDA Page creation
+Nsight report — CUDA Page creation
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var5.png)
-Caption: Nsight report — CUDA MemAdvise
+Nsight report — CUDA MemAdvise
 ![Nsight Report of Cuda Unified](screenshots/nsight/nsight-var6.png)
-Caption: Nsight report — CUDA memcpy
+Nsight report — CUDA memcpy
 
 
 ## iii) Comparative execution-time table
@@ -102,7 +101,7 @@ The CUDA Unified Memory (UM) results highlight the importance of tuning:
 
 ### Guide questions:
 
-a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?
+**a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?**
 	- All of the variants includes several overheads like: host to device data transfer, device to host data transfer, kernel launch, and page migration. The CUDA Variant 4 with Prefetch and Page Creation exepmplifies this and is a good evidence, it shows page thrashing causing a bottleneck because "Communication overhead impacts parallel system performance" (Fiveable, n.d.). When Variant 4 is compared to the Classic Memcpy variant, the Classic memcpy variant is more efficient.
 
 	-	Kernel Launch Overhead: The time taken by the CPU thread to invoke and queue the kernel on the GPU.
@@ -122,7 +121,7 @@ a) What overheads are included in the GPU execution time (up to the point data a
 		-	UM + Thrashing (VAR4): This introduces severe, destructive overhead from Page Thrashing, where the CPU and GPU repeatedly
 			request and migrate the same memory pages back and forth, consuming vast amounts of time (as seen in the 89 ms result). 
 	
-b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?
+**b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?**
 
 - cudaMallocManaged Time Decreases (64 to 1024): This initial time often includes the very first page faults and the initial setup of the UM system. As the block size increases (and therefore the total number of threads/blocks increases, up to the optimal point), the kernel is more effectively utilizing the GPU, and the initial time taken before the kernel launch might look better because more work is being done in parallel.
 - H2D / D2H Time Increases at 1024
@@ -131,19 +130,19 @@ b) How does block size affect execution time (observing various element counts a
 
 Data suggests that 1024 threads per block may be great for compute speed, but it causes the highest Unified Memory overhead (H2D/D2H migration). A slightly smaller size (like 512 or 256) might offer a better balance between fast kernel execution and minimized data transfer overhead, leading to the best overall wall-clock time.
 
-c) Is prefetching always recommended, or should CUDA manage memory? Give specific use cases where prefetching helps or hurts.
+**c) Is prefetching always recommended, or should CUDA manage memory? Give specific use cases where prefetching helps or hurts.**
 
 - Prefetching is not always recommended. Relying on CUDA's automatic Unified Memory (UM) management is generally simpler and safer by default.
 -  Prefetching is beneficial for large, sequential data access patterns (e.g., streaming data to the GPU). It enables the programmer to execute a single, efficient bulk transfer (cudaMemPrefetchAsync), which is faster than relying on the high latency of multiple, individual page faults (e.g., Prefetch reduced time from 64.86 text ms to 43.14 ms).
 -  Prefetching hurts performance if used without the memadvise locality hint. In alternating CPU/GPU access scenarios, this can confuse the memory manager and lead to severe Page Thrashing, resulting in the worst-case time of 89.16 ms.
 
-d) Between SIMD and SIMT, which is faster for this workload? Give use cases where one model is preferable.
+**d) Between SIMD and SIMT, which is faster for this workload? Give use cases where one model is preferable.**
 
 - SIMD (x86-64) is significantly faster for this workload (4.46 ms) than the fastest SIMT/CUDA variant (12.83 ms).
 - SIMD is preferable for small, simple, compute-intensive workloads where the cost of data movement to the GPU is the dominant bottleneck.
 - SIMT is preferable for massively parallel, latency-tolerant workloads where the computation time is large enough to amortize the initial data transfer overhead, such as large-scale simulations.
 
-// add charts like bar charts for timings, speedup plots, and any roofline or bandwidth utilization graphs
+## Visualizations
 
 ![Execution time comparison](screenshots/upload/ExecutionTime.png)
 
@@ -151,37 +150,34 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
 
 ## v) Problems encountered, solutions, and notable methodology
 
-- Problems encountered:
+- **Problems encountered:**
 	- We encountered inconsisstency in the data initialization across the differnt CUDA variants which resulted to the inaccurate comparison of execution time. 
 
-- Solutions and reasoning:
+- **Solutions and reasoning:**
     - Our solution for thhe inconsistency of the data initailization is a single, unified deterministic data initializer executed before timing identifical for all variants. 
 
-- Unique methodology / AHA moments:
+- **Unique methodology / AHA moments:**
     - SIMD vs. SIMT Crossover Point: The clearest AHA moment was the empirical result showing that SIMD (YMM) was significantly faster than all SIMT variants. This demonstrated that for the 4096 x 4096 matrix-vector problem, the overhead of data transfer and Unified Memory management dominated the total execution time, negating the GPU's massive theoretical computational advantage.
     - Grid-Stride Loop Implementation: The consistent use of the Grid-Stride Loop pattern in all CUDA kernels ensured that the code was scalable across various block and grid sizes, which is an essential best practice for robust parallel programming on the GPU.
 
 ## vi) SIMD vs SIMT — conceptual comparison and project-specific pros/cons
 
-1. Data vs Thread
+1. **Data vs Thread**
 	- SIMD: Single Instruciton, Multiple Data, from its name deals with data parallel executions where a single thread issues vector instructions to operate on registers like the 256 bit YMM registers containing vectors. Since the programmer is repsponsible for putting the data in and out of the registers, it may be quite of complex especially for simple tasks.
 	- SIMT: Single Instruction, Multiple Threads, from its name launches thousands of threads from a single conceptual thread with a scalar code. This model is easier to program as the programmer doesn't need to manually do data chunking and management of the data into warps.
-2. Latency vs Througput
+2. **Latency vs Througput**
 	- SIMD: Since SIMD lies in the cpu, the performance of SIMD's are optimized for latency not having much overhead and relying on contiguous data access. These data fits in the CPU's cache (Springer, 2019).
 	- SIMT: Since SIMT lies within the GPU, it's more optimized for throuput since there are communication overhead to and from the device. "Shared memory can also be used to avoid uncoalesced memory accesses by loading and storing data in a coalesced pattern from global memory and then reordering it in shared memory." (Nvidia, n.d.; Springer, 2019)
 ### Project SPeicfic Analysis and Conclusion
-	- The conceptual difference between SIMD and SIMT is fundamentally one of scale versus overhead. Our results shows a clear example of the trade-off.
-	- SIMD, used via x86 AVX, achieves parallelism by applying a single instruction to multiple data elements within a single CPU core. This model has very low launch overhead and the fastest implementation (YMM) achieved an exceptional 4.467 ms.
-	- In contrast, SIMT achieves massive parallelism by running thousands of threads across numerous GPU cores. Although theoretically more powerful for compute-heavy tasks, the best performing SIMT variant (Classic memcpy) took 12.831 ms.
-	- Therefore, for this specific 4096 x 4096 matrix-vector multiplication, the SIMD model was empirically faster due to the high data transfer and memory management overheads (including cudaMemcpy time) that bottlenecked the CUDA variants. 
+- The conceptual difference between SIMD and SIMT is fundamentally one of scale versus overhead. Our results shows a clear example of the trade-off.
+- SIMD, used via x86 AVX, achieves parallelism by applying a single instruction to multiple data elements within a single CPU core. This model has very low launch overhead and the fastest implementation (YMM) achieved an exceptional 4.467 ms.
+- In contrast, SIMT achieves massive parallelism by running thousands of threads across numerous GPU cores. Although theoretically more powerful for compute-heavy tasks, the best performing SIMT variant (Classic memcpy) took 12.831 ms.
+- Therefore, for this specific 4096 x 4096 matrix-vector multiplication, the SIMD model was empirically faster due to the high data transfer and memory management overheads (including cudaMemcpy time) that bottlenecked the CUDA variants. 
 	
-	Based from our findings, these are the preferable use cases for each:
-	- SIMD is preferable for workloads where the data set fits in memory and the overhead of data transfer dominates computation time,
-	- while SIMT is preferable for large-scale, compute-bound problems where data transfer time is relatively small compared to the kernel execution time. 
+*Based from our findings, these are the preferable use cases for each:*
+- SIMD is preferable for workloads where the data set fits in memory and the overhead of data transfer dominates computation time,
+- while SIMT is preferable for large-scale, compute-bound problems where data transfer time is relatively small compared to the kernel execution time. 
 
-## Final notes
-notes
----
 
 # References
 Fiveable. (n.d.). Challenges & opportunities — Parallel and distributed computing (Unit 1 study guide). Fiveable. https://fiveable.me/parallel-and-distributed-computing/unit-1/challenges-opportunities-parallel-computing/study-guide/y1mgJbjLL5Q3keYw
