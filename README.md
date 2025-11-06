@@ -116,7 +116,7 @@ The CUDA Unified Memory (UM) results highlight the importance of tuning:
 			via Page Faults when accessed by either the CPU or GPU.
 			
 		-	UM + Prefetch (VAR3/VAR5): Explicit cudaMemPrefetchAsync is used to hide some of the H2D migration cost by moving data
-			asynchronously before the kernel starts, preventing on-demand page faults during execution.
+			asynchronously before the kernel starts, preventing on-demand page faults during execution.	
 			
 		-	UM + Thrashing (VAR4): This introduces severe, destructive overhead from Page Thrashing, where the CPU and GPU repeatedly
 			request and migrate the same memory pages back and forth, consuming vast amounts of time (as seen in the 89 ms result). 
