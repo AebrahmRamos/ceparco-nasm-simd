@@ -30,28 +30,32 @@
 	- nsight/nsight-var5.png     — Nsight report: CUDA MemAdvise
 	- nsight/nsight-var6.png     — Nsight report: CUDA memcpy
 
-![Output of C](screenshots/upload/output_c.png)
+![Output of C](screenshots/upload/output_c.png)\
+Caption: C baseline — correctness passed (L2 error = 0), wall-clock time = 77.856500 ms
 
-![Output of x86-64 scalar](screenshots/upload/output_x86_scalar.png)
+![Output of x86-64 scalar](screenshots/upload/output_x86_scalar.png)\
+Caption: x86-64 scalar — correctness passed (L2 error = OK), wall-clock time = 9.245687 ms
 
-![Output of x86-64 SIMD XMM](screenshots/upload/output_xmm.png)
+![Output of x86-64 SIMD XMM](screenshots/upload/output_xmm.png)\
+Caption: x86-64 SIMD XMM — correctness passed (L2 error = OK), wall-clock time = 4.853967 ms
 
-![Output of x86-64 SIMD YMM](screenshots/upload/output_ymm.png)
+![Output of x86-64 SIMD YMM](screenshots/upload/output_ymm.png)\
+Caption: x86-64 SIMD YMM — correctness passed (L2 error = OK), wall-clock time = 4.466910 ms
 
-![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)
-Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
+![Output of Cuda Unified](screenshots/simt/nvprof-var2.png)\
+Caption: CUDA Unified — correctness passed (L2 error = 0), wall-clock time = 64.86667 ms
 
-![Output of Cuda Prefetch](screenshots/simt/nvprof-var3.png)
-Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
+![Output of Cuda Prefetch](screenshots/simt/nvprof-var3.png)\
+Caption: CUDA Prefetch — correctness passed (L2 error = 0), wall-clock time = 43.14558 ms
 
-![Output of Cuda Page Creation](screenshots/simt/nvprof-var4.png)
-Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
+![Output of Cuda Page Creation](screenshots/simt/nvprof-var4.png)\
+Caption: CUDA Prefetch + Page creation — correctness passed (L2 error = 0), wall-clock time = 89.16437 ms
 
-![Output of Cuda MemAdvise](screenshots/simt/nvprof-var5.png)
-Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
+![Output of Cuda MemAdvise](screenshots/simt/nvprof-var5.png)\
+Caption: CUDA Prefetch + Page + memadvise — correctness passed (L2 error = 0), wall-clock time = 13.824438 ms
 
-![Output of Cuda Memory Copy](screenshots/simt/nvprof-var6.png)
-Caption: C baseline — correctness passed (L2 error = ...), wall-clock time = ... ms
+![Output of Cuda Memory Copy](screenshots/simt/nvprof-var6.png)\
+Caption: CUDA classic memcpy — correctness passed (L2 error = 0), wall-clock time = 12.831062 ms
 
 ## ii) nSight screenshots for CUDA variants
 
