@@ -140,10 +140,10 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
 ## v) Problems encountered, solutions, and notable methodology
 
 - Problems encountered:
-	- problem - how found and fix
+	- We encountered inconsisstency in the data initialization across the differnt CUDA variants which resulted to the inaccurate comparison of execution time. 
 
 - Solutions and reasoning:
-    - solution
+    - Our solution for thhe inconsistency of the data initailization is a single, unified deterministic data initializer executed before timing identifical for all variants. 
 
 - Unique methodology / AHA moments:
     - SIMD vs. SIMT Crossover Point: The clearest AHA moment was the empirical result showing that SIMD (YMM) was significantly faster than all SIMT variants. This demonstrated that for the 4096 x 4096 matrix-vector problem, the overhead of data transfer and Unified Memory management dominated the total execution time, negating the GPU's massive theoretical computational advantage.
