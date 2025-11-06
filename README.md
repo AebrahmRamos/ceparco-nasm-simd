@@ -95,11 +95,26 @@ The CUDA Unified Memory (UM) results highlight the importance of tuning:
 - Adding memadvise solved the thrashing, reducing the time dramatically to 13.82 ms (5.6318x speedup)
 
 ### Guide questions:
+
 a) What overheads are included in the GPU execution time (up to the point data are transferred back for error checking)? Is it different for each CUDA variant?
-	- page migration, host to device, device to hostt
 
+	-	Kernel Launch Overhead: The time taken by the CPU thread to invoke and queue the kernel on the GPU.
 	
-
+	-	Kernel Execution Time: The time spent by the Streaming Multiprocessors performing the actual matrix-vector multiplication.
+	
+	-	Data Transfer/Management Overheads:
+		-	Classic memcpy (VAR6): Includes explicit, predictable cudaMemcpyHostToDevice (H2D) and cudaMemcpyDeviceToHost (D2H) transfer
+			times, which happen sequentially before and after the kernel.
+			
+		-	Unified Memory (VAR2-VAR5): These variants replace explicit transfers with Page Migration Overheads. Data is moved on-demand
+			via Page Faults when accessed by either the CPU or GPU.
+			
+		-	UM + Prefetch (VAR3/VAR5): Explicit cudaMemPrefetchAsync is used to hide some of the H2D migration cost by moving data
+			asynchronously before the kernel starts, preventing on-demand page faults during execution.
+			
+		-	UM + Thrashing (VAR4): This introduces severe, destructive overhead from Page Thrashing, where the CPU and GPU repeatedly
+			request and migrate the same memory pages back and forth, consuming vast amounts of time (as seen in the 89 ms result). 
+	
 b) How does block size affect execution time (observing various element counts and max blocks)? Which block size would you recommend and why?
 
 
@@ -131,8 +146,8 @@ d) Between SIMD and SIMT, which is faster for this workload? Give use cases wher
     - solution
 
 - Unique methodology / AHA moments:
-	- unique method
-    aha
+    - SIMD vs. SIMT Crossover Point: The clearest AHA moment was the empirical result showing that SIMD (YMM) was significantly faster than all SIMT variants. This demonstrated that for the 4096 x 4096 matrix-vector problem, the overhead of data transfer and Unified Memory management dominated the total execution time, negating the GPU's massive theoretical computational advantage.
+    - Grid-Stride Loop Implementation: The consistent use of the Grid-Stride Loop pattern in all CUDA kernels ensured that the code was scalable across various block and grid sizes, which is an essential best practice for robust parallel programming on the GPU.
 
 ## vi) SIMD vs SIMT — conceptual comparison and project-specific pros/cons
 
